@@ -91,7 +91,7 @@ def total_tax_version_2018(total_mount: float) -> float:
     return total_tax_calc(total_mount, levels_2018_version)
 
 
-def main(year: int, add_bonus_to_total: bool):
+def year_calc(year: int, add_bonus_to_total: bool):
     con = sqlite3.connect("./tax.db")
     cur = con.cursor()
 
@@ -213,14 +213,19 @@ def main(year: int, add_bonus_to_total: bool):
     if not add_bonus_to_total:
         annual_bonus_tax = annual_bonus_version_2019(total_bonus)
         print("全年一次性奖金应纳税额：{}".format(annual_bonus_tax))
-        tax += annual_bonus_tax
+        # tax += annual_bonus_tax
 
     return tax
 
-
-if __name__ == "__main__":
+def main():
     print("本程序的结果仅作参考，最终请按个税APP为准！")
     print("--------------")
-    print("不计入应纳税额：{}".format(main(2023, False)))
+    print("不计入应纳税额：{}".format(year_calc(2019, add_bonus_to_total=False)))
     print("--------------")
-    print("计入应纳税额：{}".format(main(2023, True)))
+    print("计入应纳税额：{}".format(year_calc(2019, add_bonus_to_total=True)))
+    for i in range(2019, 2025):
+        print("--------------{}--------------".format(i))
+        print("不计入应纳税额：{}".format(year_calc(i, add_bonus_to_total=False)))
+
+if __name__ == "__main__":
+    main()
