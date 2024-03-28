@@ -70,6 +70,14 @@ def main(year: int, add_bonus_to_total: bool):
     # "month" 月
     # "income" 收入
     # "bonus" 全年一次性奖金
+    cur.execute("CREATE TABLE IF NOT EXISTS \"income\" (    \
+                \"year\"    INTEGER,                        \
+                \"month\"   INTEGER,                        \
+                \"income\"  REAL,                           \
+                \"bonus\"   REAL)")
+
+    # "year" 年
+    # "month" 月
     # "threshold" 减除费用（起征点）
     # "pension" 专项扣除 基本养老保险
     # "medical-insurance" 专项扣除 基本医疗保险
@@ -82,30 +90,32 @@ def main(year: int, add_bonus_to_total: bool):
     # "adult-education" 专项附加扣除 继续教育
     # "children-education" 专项附加扣除 子女教育
     # "personal-pension" 个人养老金
+    cur.execute("CREATE TABLE IF NOT EXISTS \"deduction\" ( \
+                \"year\"                    INTEGER,        \
+                \"month\"                   INTEGER,        \
+                \"threshold\"               REAL,           \
+                \"pension\"                 REAL,           \
+                \"medical-insurance\"       REAL,           \
+                \"unemployment-insurance\"  REAL,           \
+                \"housing-fund\"            REAL,           \
+                \"housing-loan\"            REAL,           \
+                \"house-renting\"           REAL,           \
+                \"elderly-support\"         REAL,           \
+                \"serious-illness-support\" REAL,           \
+                \"adult-education\"         REAL,           \
+                \"children-education\"      REAL,           \
+                \"personal-pension\"        REAL)")
 
-    cur.execute("CREATE TABLE IF NOT EXISTS \"income-data\" (     \
-                \"year\" INTEGER,                   \
-                \"month\"   INTEGER,                \
-                \"income\" REAL,                    \
-                \"bonus\" REAL,                     \
-                \"threshold\" REAL,                 \
-                \"pension\" REAL,                   \
-                \"medical-insurance\" REAL,         \
-                \"unemployment-insurance\" REAL,    \
-                \"housing-fund\" REAL,              \
-                \"housing-loan\" REAL,              \
-                \"house-renting\" REAL,             \
-                \"elderly-support\" REAL,           \
-                \"serious-illness-support\" REAL,   \
-                \"adult-education\" REAL,           \
-                \"children-education\" REAL,        \
-                \"personal-pension\" REAL)")
+    result_income = cur.execute("SELECT * FROM \"income\" WHERE year={}".format(year)).fetchall()
 
-    res = cur.execute("SELECT * FROM 'income-data' WHERE year={}".format(year))
-    result = res.fetchall()
-    # print(result)
     total_income: float = 0.0
     total_bonus: float = 0.0
+    for i in result_income:
+        total_income += i[2]
+        total_bonus += i[3]
+
+    result_deduction = cur.execute("SELECT * FROM \"deduction\" WHERE year={}".format(year)).fetchall()
+
     tax_start_point: float = 0.0
     total_pension: float = 0.0
     total_medical_insurance: float = 0.0
@@ -118,21 +128,19 @@ def main(year: int, add_bonus_to_total: bool):
     total_adult_education: float = 0.0
     total_children_education: float = 0.0
     total_personal_pension: float = 0.0
-    for i in result:
-        total_income += i[2]
-        total_bonus += i[3]
-        tax_start_point += i[4]
-        total_pension += i[5]
-        total_medical_insurance += i[6]
-        total_unemployment_insurance += i[7]
-        total_housing_fund += i[8]
-        total_housing_loan += i[9]
-        total_house_renting += i[10]
-        total_elderly_support += i[11]
-        total_serious_illness_support += i[12]
-        total_adult_education += i[13]
-        total_children_education += i[14]
-        total_personal_pension += i[15]
+    for i in result_deduction:
+        tax_start_point += i[2]
+        total_pension += i[3]
+        total_medical_insurance += i[4]
+        total_unemployment_insurance += i[5]
+        total_housing_fund += i[6]
+        total_housing_loan += i[7]
+        total_house_renting += i[8]
+        total_elderly_support += i[9]
+        total_serious_illness_support += i[10]
+        total_adult_education += i[11]
+        total_children_education += i[12]
+        total_personal_pension += i[13]
 
     print("总收入：{}".format(total_income))
     print("全年一次性奖金：{}".format(total_bonus))
@@ -150,35 +158,22 @@ def main(year: int, add_bonus_to_total: bool):
     print("个人养老金：{}".format(total_personal_pension))
 
     tax_mount: float = 0.0
+    tax_mount = total_income                    \
+                - tax_start_point               \
+                - total_pension                 \
+                - total_medical_insurance       \
+                - total_unemployment_insurance  \
+                - total_housing_fund            \
+                - total_housing_loan            \
+                - total_house_renting           \
+                - total_elderly_support         \
+                - total_serious_illness_support \
+                - total_adult_education         \
+                - total_children_education      \
+                - total_personal_pension
+
     if add_bonus_to_total:
-        tax_mount = total_income \
-            + total_bonus  \
-            - tax_start_point  \
-            - total_pension  \
-            - total_medical_insurance\
-            - total_unemployment_insurance  \
-            - total_housing_fund \
-            - total_housing_loan \
-            - total_house_renting \
-            - total_elderly_support \
-            - total_serious_illness_support \
-            - total_adult_education \
-            - total_children_education \
-            - total_personal_pension
-    else:
-        tax_mount = total_income \
-            - tax_start_point  \
-            - total_pension  \
-            - total_medical_insurance\
-            - total_unemployment_insurance  \
-            - total_housing_fund \
-            - total_housing_loan \
-            - total_house_renting \
-            - total_elderly_support \
-            - total_serious_illness_support \
-            - total_adult_education \
-            - total_children_education \
-            - total_personal_pension
+        tax_mount += total_bonus
 
     print("应纳税所得：{}".format(tax_mount))
 
