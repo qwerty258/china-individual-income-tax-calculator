@@ -39,6 +39,35 @@ def total_tax_calc(total_mount: float, levels: tuple) -> float:
     return total_tax
 
 
+# 全年一次性奖金优惠政策 2019 - 2021
+# https://www.gov.cn/zhengce/zhengceku/2018-12/31/content_5440172.htm
+# 全年一次性奖金优惠政策 2022 - 2023
+# https://www.gov.cn/zhengce/zhengceku/2021-12/31/content_5665897.htm
+# 全年一次性奖金优惠政策 2023 - 2027
+# https://www.gov.cn/zhengce/zhengceku/202308/content_6900595.htm
+def annual_bonus_version_2019(total_bonus: float) -> float:
+    # 按月换算后的综合所得税率表
+    # |级数 |全月应纳税所得额           |税率（%）  |速算扣除数 |
+    # |-----|-------------------------|-----------|----------|
+    # |1    |不超过3000元的             |3         |0         |
+    # |2    |超过3000元至12000元的部分  |10         |210        |
+    # |3    |超过12000元至25000元的部分 |20         |1410       |
+    # |4    |超过25000元至35000元的部分 |25         |2660       |
+    # |5    |超过35000元至55000元的部分 |30         |4410       |
+    # |6    |超过55000元至80000元的部分 |35         |7160       |
+    # |7    |超过80000元的部分          |45         |15160      |
+    annual_bonus_levels_2019_version: tuple = [
+        [960000, 0.45],
+        [660000, 0.35],
+        [420000, 0.3],
+        [300000, 0.25],
+        [144000, 0.2],
+        [36000, 0.1],
+        [0, 0.03]]
+
+    return total_tax_calc(total_bonus, annual_bonus_levels_2019_version)
+
+
 def total_tax_version_2018(total_mount: float) -> float:
     # | 级数  | 全年应纳税所得额                 | 税率（％） |
     # |------|-------------------------------|-----------|
@@ -106,7 +135,8 @@ def main(year: int, add_bonus_to_total: bool):
                 \"children-education\"      REAL,           \
                 \"personal-pension\"        REAL)")
 
-    result_income = cur.execute("SELECT * FROM \"income\" WHERE year={}".format(year)).fetchall()
+    result_income = cur.execute(
+        "SELECT * FROM \"income\" WHERE year={}".format(year)).fetchall()
 
     total_income: float = 0.0
     total_bonus: float = 0.0
@@ -114,7 +144,8 @@ def main(year: int, add_bonus_to_total: bool):
         total_income += i[2]
         total_bonus += i[3]
 
-    result_deduction = cur.execute("SELECT * FROM \"deduction\" WHERE year={}".format(year)).fetchall()
+    result_deduction = cur.execute(
+        "SELECT * FROM \"deduction\" WHERE year={}".format(year)).fetchall()
 
     tax_start_point: float = 0.0
     total_pension: float = 0.0
@@ -142,6 +173,9 @@ def main(year: int, add_bonus_to_total: bool):
         total_children_education += i[12]
         total_personal_pension += i[13]
 
+    if add_bonus_to_total:
+        total_income += total_bonus
+
     print("总收入：{}".format(total_income))
     print("全年一次性奖金：{}".format(total_bonus))
     print("减除费用（起征点）：{}".format(tax_start_point))
@@ -159,28 +193,29 @@ def main(year: int, add_bonus_to_total: bool):
 
     tax_mount: float = 0.0
     tax_mount = total_income                    \
-                - tax_start_point               \
-                - total_pension                 \
-                - total_medical_insurance       \
-                - total_unemployment_insurance  \
-                - total_housing_fund            \
-                - total_housing_loan            \
-                - total_house_renting           \
-                - total_elderly_support         \
-                - total_serious_illness_support \
-                - total_adult_education         \
-                - total_children_education      \
-                - total_personal_pension
-
-    if add_bonus_to_total:
-        tax_mount += total_bonus
+        - tax_start_point               \
+        - total_pension                 \
+        - total_medical_insurance       \
+        - total_unemployment_insurance  \
+        - total_housing_fund            \
+        - total_housing_loan            \
+        - total_house_renting           \
+        - total_elderly_support         \
+        - total_serious_illness_support \
+        - total_adult_education         \
+        - total_children_education      \
+        - total_personal_pension
 
     print("应纳税所得：{}".format(tax_mount))
 
     tax = total_tax_version_2018(tax_mount)
 
-    return tax
+    if not add_bonus_to_total:
+        annual_bonus_tax = annual_bonus_version_2019(total_bonus)
+        print("全年一次性奖金应纳税额：{}".format(annual_bonus_tax))
+        tax += annual_bonus_tax
 
+    return tax
 
 
 if __name__ == "__main__":
