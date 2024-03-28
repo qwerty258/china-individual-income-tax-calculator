@@ -25,6 +25,7 @@
 
 
 import sqlite3
+import tabulate
 
 
 def total_tax_calc(total_mount: float, levels: tuple) -> float:
@@ -91,7 +92,7 @@ def total_tax_version_2018(total_mount: float) -> float:
     return total_tax_calc(total_mount, levels_2018_version)
 
 
-def year_calc(year: int, add_bonus_to_total: bool):
+def year_calc(year: int, add_bonus_to_total: bool, pay_personal_pension: bool):
     con = sqlite3.connect("./tax.db")
     cur = con.cursor()
 
@@ -176,20 +177,20 @@ def year_calc(year: int, add_bonus_to_total: bool):
     if add_bonus_to_total:
         total_income += total_bonus
 
-    print("总收入：{}".format(total_income))
-    print("全年一次性奖金：{}".format(total_bonus))
-    print("减除费用（起征点）：{}".format(tax_start_point))
-    print("基本养老保险： {}".format(total_pension))
-    print("基本医疗保险：{}".format(total_medical_insurance))
-    print("失业保险：{}".format(total_unemployment_insurance))
-    print("住房公积金：{}".format(total_housing_fund))
-    print("住房贷款利息：{}".format(total_housing_loan))
-    print("住房租金：{}".format(total_house_renting))
-    print("赡养老人：{}".format(total_elderly_support))
-    print("大病医疗：{}".format(total_serious_illness_support))
-    print("继续教育：{}".format(total_adult_education))
-    print("子女教育：{}".format(total_children_education))
-    print("个人养老金：{}".format(total_personal_pension))
+    # print("总收入：{}".format(total_income))
+    # print("全年一次性奖金：{}".format(total_bonus))
+    # print("减除费用（起征点）：{}".format(tax_start_point))
+    # print("基本养老保险： {}".format(total_pension))
+    # print("基本医疗保险：{}".format(total_medical_insurance))
+    # print("失业保险：{}".format(total_unemployment_insurance))
+    # print("住房公积金：{}".format(total_housing_fund))
+    # print("住房贷款利息：{}".format(total_housing_loan))
+    # print("住房租金：{}".format(total_house_renting))
+    # print("赡养老人：{}".format(total_elderly_support))
+    # print("大病医疗：{}".format(total_serious_illness_support))
+    # print("继续教育：{}".format(total_adult_education))
+    # print("子女教育：{}".format(total_children_education))
+    # print("个人养老金：{}".format(total_personal_pension))
 
     tax_mount: float = 0.0
     tax_mount = total_income                    \
@@ -203,29 +204,103 @@ def year_calc(year: int, add_bonus_to_total: bool):
         - total_elderly_support         \
         - total_serious_illness_support \
         - total_adult_education         \
-        - total_children_education      \
-        - total_personal_pension
+        - total_children_education
 
-    print("应纳税所得：{}".format(tax_mount))
+    if pay_personal_pension:
+        tax_mount -= total_personal_pension
+
+    # print("应纳税所得：{}".format(tax_mount))
 
     tax = total_tax_version_2018(tax_mount)
 
+    annual_bonus_tax: float = 0.0
     if not add_bonus_to_total:
         annual_bonus_tax = annual_bonus_version_2019(total_bonus)
-        print("全年一次性奖金应纳税额：{}".format(annual_bonus_tax))
-        # tax += annual_bonus_tax
+        # print("全年一次性奖金应纳税额：{}".format(annual_bonus_tax))
 
-    return tax
+    return ["{}".format(year),
+            "include" if add_bonus_to_total else "exclude",
+            "pay" if pay_personal_pension else "no pay",
+            "{}".format(total_income),
+            "{}".format(total_bonus),
+            "{}".format(tax_start_point),
+            "{}".format(total_pension),
+            "{}".format(total_medical_insurance),
+            "{}".format(total_unemployment_insurance),
+            "{}".format(total_housing_fund),
+            "{}".format(total_housing_loan),
+            "{}".format(total_house_renting),
+            "{}".format(total_elderly_support),
+            "{}".format(total_serious_illness_support),
+            "{}".format(total_adult_education),
+            "{}".format(total_children_education),
+            "{}".format(total_personal_pension),
+            "{}".format(tax),
+            "{}".format(annual_bonus_tax),
+            "{}".format(tax + annual_bonus_tax)]
+
 
 def main():
     print("本程序的结果仅作参考，最终请按个税APP为准！")
-    print("--------------")
-    print("不计入应纳税额：{}".format(year_calc(2019, add_bonus_to_total=False)))
-    print("--------------")
-    print("计入应纳税额：{}".format(year_calc(2019, add_bonus_to_total=True)))
+    # header = [
+    #     "年",
+    #     "全年一次性奖金",
+    #     "个人养老金",
+    #     "总收入",
+    #     "全年一次性奖金",
+    #     "减除费用（起征点）",
+    #     "基本养老保险",
+    #     "基本医疗保险",
+    #     "失业保险",
+    #     "住房公积金",
+    #     "住房贷款利息",
+    #     "住房租金",
+    #     "赡养老人",
+    #     "大病医疗",
+    #     "继续教育",
+    #     "子女教育",
+    #     "个人养老金",
+    #     "应纳税所得",
+    #     "全年一次性奖金应纳税额"
+    # ]
+
+    header = [
+        "year",
+        "annual bonus",
+        "personal pension",
+        "total income",
+        "annual bonus",
+        "tax start point",
+        "pension",
+        "medical insurance",
+        "layoff insurance",
+        "housing fund",
+        "housing loan",
+        "house renting",
+        "elderly support",
+        "illness support",
+        "adult education",
+        "children education",
+        "personal pension",
+        "tax",
+        "annual bonus tax",
+        "total tax"
+    ]
+
+    result = []
+
     for i in range(2019, 2025):
-        print("--------------{}--------------".format(i))
-        print("不计入应纳税额：{}".format(year_calc(i, add_bonus_to_total=False)))
+        result.append(year_calc(i, add_bonus_to_total=False,
+                      pay_personal_pension=True))
+        result.append(year_calc(i, add_bonus_to_total=False,
+                      pay_personal_pension=False))
+        result.append(year_calc(i, add_bonus_to_total=True,
+                      pay_personal_pension=True))
+        result.append(year_calc(i, add_bonus_to_total=True,
+                      pay_personal_pension=False))
+
+    print(tabulate.tabulate(result, headers=header, floatfmt=".2f", tablefmt="grid"))
+
 
 if __name__ == "__main__":
     main()
