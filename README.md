@@ -7,3 +7,8 @@
  - 比较是否缴纳个人养老金。
  - 没有对其他类型收入计算纳税额。
  - 没有UI。
+
+# 数据库编辑
+
+1. [DB Browser for SQLite](https://sqlitebrowser.org/) 独立GUI数据库编辑器
+1. [SQLite3 Editor](https://marketplace.visualstudio.com/items?itemName=yy0931.vscode-sqlite3-editor) VSCode 插件
