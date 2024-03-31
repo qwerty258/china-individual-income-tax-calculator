@@ -218,6 +218,8 @@ def year_calc(year: int, add_bonus_to_total: bool, pay_personal_pension: bool):
         annual_bonus_tax = annual_bonus_version_2019(total_bonus)
         # print("全年一次性奖金应纳税额：{}".format(annual_bonus_tax))
 
+    tax_personal_pension: float = total_personal_pension * 0.03
+
     return ["{}".format(year),
             "include" if add_bonus_to_total else "exclude",
             "pay" if pay_personal_pension else "no pay",
@@ -237,7 +239,8 @@ def year_calc(year: int, add_bonus_to_total: bool, pay_personal_pension: bool):
             # "{}".format(total_personal_pension),
             "{}".format(tax),
             "{}".format(annual_bonus_tax),
-            "{}".format(tax + annual_bonus_tax)]
+            "{}".format(tax_personal_pension),
+            "{}".format(tax + annual_bonus_tax + tax_personal_pension)]
 
 
 def main():
@@ -284,6 +287,7 @@ def main():
         # "personal pension",
         "tax",
         "annual bonus tax",
+        "personal pension tax",
         "total tax"
     ]
 
