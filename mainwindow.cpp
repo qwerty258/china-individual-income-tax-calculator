@@ -54,6 +54,10 @@ MainWindow::MainWindow(QWidget *parent)
         ui->table_view_deduction->sortByColumn(0, Qt::SortOrder::AscendingOrder);
         ui->table_view_deduction->resizeColumnsToContents();
     }
+
+    tax_result_model.add_tax_result(&tax_report_list);
+    ui->table_view_tax_result->setModel(&tax_result_model);
+    ui->table_view_tax_result->resizeColumnsToContents();
 }
 
 MainWindow::~MainWindow()
@@ -63,6 +67,10 @@ MainWindow::~MainWindow()
     if (nullptr != p_table_income_model)
     {
         delete p_table_income_model;
+    }
+    if (nullptr != p_table_deduction_model)
+    {
+        delete p_table_deduction_model;
     }
     database_uninit();
 }
@@ -98,7 +106,207 @@ void MainWindow::on_push_button_calc_clicked()
     int month;
     int day;
     ui->date_edit->date().getDate(&year, &month, &day);
+
+    yearly_tax_report_t temp;
+
+    bool add_bonus_to_total;
+    bool pay_personal_pension;
+
+    tax_result_model.begin_update_data();
+    tax_report_list.clear();
+
+    add_bonus_to_total = false;
+    pay_personal_pension = true;
+    year_tax_calc(add_bonus_to_total, pay_personal_pension);
+    temp.year = year;
+    temp.add_bonus_to_total = add_bonus_to_total;
+    temp.pay_personal_pension = pay_personal_pension;
+    temp.total_income = total_income;
+    temp.total_annual_bonus = total_bonus;
+    temp.tax_total_income = tax_income;
+    temp.tax_annual_bonus = tax_annual_bonus;
+    temp.tax_personal_pension = tax_personal_pension;
+    temp.tax_total = tax_total;
+    tax_report_list.push_back(temp);
+
+    add_bonus_to_total = false;
+    pay_personal_pension = false;
+    year_tax_calc(add_bonus_to_total, pay_personal_pension);
+    temp.year = year;
+    temp.add_bonus_to_total = add_bonus_to_total;
+    temp.pay_personal_pension = pay_personal_pension;
+    temp.total_income = total_income;
+    temp.total_annual_bonus = total_bonus;
+    temp.tax_total_income = tax_income;
+    temp.tax_annual_bonus = tax_annual_bonus;
+    temp.tax_personal_pension = tax_personal_pension;
+    temp.tax_total = tax_total;
+    tax_report_list.push_back(temp);
+
+    add_bonus_to_total = true;
+    pay_personal_pension = true;
+    year_tax_calc(add_bonus_to_total, pay_personal_pension);
+    temp.year = year;
+    temp.add_bonus_to_total = add_bonus_to_total;
+    temp.pay_personal_pension = pay_personal_pension;
+    temp.total_income = total_income;
+    temp.total_annual_bonus = total_bonus;
+    temp.tax_total_income = tax_income;
+    temp.tax_annual_bonus = tax_annual_bonus;
+    temp.tax_personal_pension = tax_personal_pension;
+    temp.tax_total = tax_total;
+    tax_report_list.push_back(temp);
+
+    add_bonus_to_total = true;
+    pay_personal_pension = false;
+    year_tax_calc(add_bonus_to_total, pay_personal_pension);
+    temp.year = year;
+    temp.add_bonus_to_total = add_bonus_to_total;
+    temp.pay_personal_pension = pay_personal_pension;
+    temp.total_income = total_income;
+    temp.total_annual_bonus = total_bonus;
+    temp.tax_total_income = tax_income;
+    temp.tax_annual_bonus = tax_annual_bonus;
+    temp.tax_personal_pension = tax_personal_pension;
+    temp.tax_total = tax_total;
+    tax_report_list.push_back(temp);
+
+    tax_result_model.end_update_data();
+    ui->table_view_tax_result->resizeColumnsToContents();
+}
+
+void MainWindow::year_tax_calc(bool add_bonus_to_total, bool pay_personal_pension)
+{
+    int year;
+    int month;
+    int day;
+    ui->date_edit->date().getDate(&year, &month, &day);
     qDebug() << year;
+
+    total_income = 0.0;
+    total_bonus = 0.0;
+    QSqlTableModel* p_sql_table_model_temp;
+
+    p_sql_table_model_temp = p_table_income_model->get_table_model();
+    for(int row = 0; row < p_sql_table_model_temp->rowCount(); row++)
+    {
+        QVariant row_year = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 0));
+        if (year == row_year.toInt())
+        {
+            QVariant cell_value;
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 2));
+            total_income += cell_value.toDouble();
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 3));
+            total_bonus += cell_value.toDouble();
+        }
+    }
+
+    qDebug() << "total_income: " << total_income;
+    qDebug() << "total_bonus: " << total_bonus;
+
+    tax_start_point = 0.0;
+    total_pension = 0.0;
+    total_medical_insurance = 0.0;
+    total_unemployment_insurance = 0.0;
+    total_housing_fund = 0.0;
+    total_housing_loan = 0.0;
+    total_house_renting = 0.0;
+    total_elderly_support = 0.0;
+    total_serious_illness_support = 0.0;
+    total_adult_education = 0.0;
+    total_children_education = 0.0;
+    total_personal_pension = 0.0;
+
+    p_sql_table_model_temp = p_table_deduction_model->get_table_model();
+    for (int row = 0; row < p_sql_table_model_temp->rowCount(); row++)
+    {
+        QVariant row_year = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 0));
+        if (year == row_year.toInt())
+        {
+            QVariant cell_value;
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 2));
+            tax_start_point += cell_value.toDouble();
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 3));
+            total_pension += cell_value.toDouble();
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 4));
+            total_medical_insurance += cell_value.toDouble();
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 5));
+            total_unemployment_insurance += cell_value.toDouble();
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 6));
+            total_housing_fund += cell_value.toDouble();
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 7));
+            total_housing_loan += cell_value.toDouble();
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 8));
+            total_house_renting += cell_value.toDouble();
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 9));
+            total_elderly_support += cell_value.toDouble();
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 10));
+            total_serious_illness_support += cell_value.toDouble();
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 11));
+            total_adult_education += cell_value.toDouble();
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 12));
+            total_children_education += cell_value.toDouble();
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 13));
+            total_personal_pension += cell_value.toDouble();
+        }
+    }
+
+
+    qDebug() << "tax_start_point: " << tax_start_point;
+    qDebug() << "total_pension: " << total_pension;
+    qDebug() << "total_medical_insurance: " << total_medical_insurance;
+    qDebug() << "total_unemployment_insurance: " << total_unemployment_insurance;
+    qDebug() << "total_housing_fund: " << total_housing_fund;
+    qDebug() << "total_housing_loan: " << total_housing_loan;
+    qDebug() << "total_house_renting: " << total_house_renting;
+    qDebug() << "total_elderly_support: " << total_elderly_support;
+    qDebug() << "total_serious_illness_support: " << total_serious_illness_support;
+    qDebug() << "total_adult_education: " << total_adult_education;
+    qDebug() << "total_children_education: " << total_children_education;
+    qDebug() << "total_personal_pension: " << total_personal_pension;
+
+
+    if (add_bonus_to_total)
+    {
+        total_income += total_bonus;
+    }
+
+    double tax_mount = total_income
+                       - tax_start_point
+                       - total_pension
+                       - total_medical_insurance
+                       - total_unemployment_insurance
+                       - total_housing_fund
+                       - total_housing_loan
+                       - total_house_renting
+                       - total_elderly_support
+                       - total_serious_illness_support
+                       - total_adult_education
+                       - total_children_education;
+
+    if (pay_personal_pension)
+    {
+        tax_mount -= total_personal_pension;
+    }
+
+    tax_income = total_tax_version_2018(tax_mount);
+
+    tax_annual_bonus = 0.0;
+    if (!add_bonus_to_total)
+    {
+        tax_annual_bonus = annual_bonus_version_2019(total_bonus);
+    }
+
+    if (pay_personal_pension)
+    {
+        tax_personal_pension = total_personal_pension * 0.03;
+    }
+    else
+    {
+        tax_personal_pension = 0;
+    }
+
+    tax_total = tax_income + tax_annual_bonus + tax_personal_pension;
 }
 
 double MainWindow::total_tax_calc(double total_mount, QVector<tax_level_t>& levels)
@@ -109,7 +317,7 @@ double MainWindow::total_tax_calc(double total_mount, QVector<tax_level_t>& leve
         if (total_mount > (*it).tax_point)
         {
             total_tax += (total_mount - (*it).tax_point) * (*it).tax_rate;
-            total_tax = (*it).tax_point;
+            total_mount = (*it).tax_point;
         }
     }
     return total_tax;

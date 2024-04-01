@@ -58,7 +58,7 @@
           <second>0</second>
           <year>2019</year>
           <month>12</month>
-          <day>28</day>
+          <day>27</day>
          </datetime>
         </property>
         <property name="displayFormat">
@@ -80,7 +80,7 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QTableView" name="tableView"/>
+       <widget class="QTableView" name="table_view_tax_result"/>
       </item>
      </layout>
     </widget>

@@ -13,13 +13,16 @@ SOURCES += \
     dialog_about.cpp \
     dialog_global_settings.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    table_model_tax_result.cpp
 
 HEADERS += \
     database.h \
+    datastructdefines.h \
     dialog_about.h \
     dialog_global_settings.h \
-    mainwindow.h
+    mainwindow.h \
+    table_model_tax_result.h
 
 FORMS += \
     dialog_about.ui \
