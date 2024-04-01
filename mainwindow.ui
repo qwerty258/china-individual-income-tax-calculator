@@ -40,7 +40,23 @@
       <string>Tax Calculation</string>
      </attribute>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
+      <item row="2" column="0">
+       <widget class="QPushButton" name="push_button_calc">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Calculate</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QTableView" name="table_view_tax_result"/>
+      </item>
+      <item row="1" column="0">
        <widget class="QDateEdit" name="date_edit">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -58,7 +74,7 @@
           <second>0</second>
           <year>2019</year>
           <month>12</month>
-          <day>27</day>
+          <day>26</day>
          </datetime>
         </property>
         <property name="displayFormat">
@@ -66,21 +82,12 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QPushButton" name="push_button_calc">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_warning">
         <property name="text">
-         <string>Calculate</string>
+         <string>This is only for reference purpose, please take &quot;Individual Tax APP&quot; as authority result.</string>
         </property>
        </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QTableView" name="table_view_tax_result"/>
       </item>
      </layout>
     </widget>
