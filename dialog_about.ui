@@ -20,7 +20,32 @@
    <string>About</string>
   </property>
   <layout class="QFormLayout" name="formLayout">
-   <item row="0" column="0" colspan="2">
+   <item row="2" column="0" colspan="2">
+    <widget class="QLabel" name="label_copyright">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::PlainText</enum>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="indent">
+      <number>0</number>
+     </property>
+     <property name="textInteractionFlags">
+      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
     <widget class="QLabel" name="label_version">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -37,27 +62,27 @@
      <property name="wordWrap">
       <bool>true</bool>
      </property>
+     <property name="indent">
+      <number>0</number>
+     </property>
      <property name="textInteractionFlags">
       <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="QLabel" name="label_copyright">
+   <item row="1" column="1">
+    <widget class="QLabel" name="label_url">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+      <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
      <property name="text">
-      <string>TextLabel</string>
+      <string notr="true">https://github.com/qwerty258/china-individual-income-tax-calculator</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
      </property>
      <property name="indent">
       <number>0</number>

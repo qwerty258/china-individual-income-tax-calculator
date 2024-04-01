@@ -10,8 +10,14 @@
     <height>600</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>600</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>China Individual Income Tax Calculator</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="tabWidget">
@@ -74,7 +80,7 @@
           <second>0</second>
           <year>2019</year>
           <month>12</month>
-          <day>26</day>
+          <day>25</day>
          </datetime>
         </property>
         <property name="displayFormat">
