@@ -6,7 +6,7 @@ CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
     database.cpp \
@@ -28,6 +28,9 @@ FORMS += \
     dialog_about.ui \
     dialog_global_settings.ui \
     mainwindow.ui
+
+TRANSLATIONS += \
+    china_iit_calc_zh_CN.ts
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
