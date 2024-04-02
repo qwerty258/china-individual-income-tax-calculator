@@ -31,6 +31,18 @@ private slots:
 
     void on_push_button_calc_clicked();
 
+    void on_table_view_income_customContextMenuRequested(const QPoint &pos);
+
+    void on_table_view_income_customContextMenuRequested_action_add_row();
+
+    void on_table_view_income_customContextMenuRequested_action_delete();
+
+    void on_table_view_deduction_customContextMenuRequested(const QPoint &pos);
+
+    void on_table_view_deduction_customContextMenuRequested_action_add_row();
+
+    void on_table_view_deduction_customContextMenuRequested_action_delete();
+
 private:
     Ui::MainWindow *ui;
     table_model *p_table_income_model;

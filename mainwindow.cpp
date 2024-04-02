@@ -62,8 +62,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    delete ui;
     p_table_income_model->table_sync();
+    p_table_deduction_model->table_sync();
+    delete ui;
     if (nullptr != p_table_income_model)
     {
         delete p_table_income_model;
@@ -419,4 +420,72 @@ double MainWindow::total_tax_version_2018(double total_mount)
     levels.push_back(temp_level);
 
     return total_tax_calc(total_mount, levels);
+}
+
+void MainWindow::on_table_view_income_customContextMenuRequested(const QPoint &pos)
+{
+    QMenu* menu = new QMenu(this);
+
+    QAction* action_add_row = new QAction(tr("Add one row at bottom"), this);
+    menu->addAction(action_add_row);
+    connect(action_add_row, SIGNAL(triggered()), this, SLOT(on_table_view_income_customContextMenuRequested_action_add_row()));
+
+    QAction* action_delete = new QAction(tr("Delete"), this);
+    menu->addAction(action_delete);
+    connect(action_delete, SIGNAL(triggered()), this, SLOT(on_table_view_income_customContextMenuRequested_action_delete()));
+
+    menu->popup(ui->table_view_income->viewport()->mapToGlobal(pos));
+}
+
+void MainWindow::on_table_view_income_customContextMenuRequested_action_add_row()
+{
+    p_table_income_model->table_add_record();
+    p_table_income_model->table_select();
+}
+
+void MainWindow::on_table_view_income_customContextMenuRequested_action_delete()
+{
+    QModelIndexList index_list = ui->table_view_income->selectionModel()->selectedIndexes();
+
+    qDebug() << "index size:" << index_list.size();
+
+    for(int i = 0; i < index_list.count(); i++)
+    {
+        p_table_income_model->table_delete_record(index_list[i].row());
+    }
+    p_table_income_model->table_select();
+}
+
+void MainWindow::on_table_view_deduction_customContextMenuRequested(const QPoint &pos)
+{
+    QMenu* menu = new QMenu(this);
+
+    QAction* action_add_row = new QAction(tr("Add one row at bottom"), this);
+    menu->addAction(action_add_row);
+    connect(action_add_row, SIGNAL(triggered()), this, SLOT(on_table_view_deduction_customContextMenuRequested_action_add_row()));
+
+    QAction* action_delete = new QAction(tr("Delete"), this);
+    menu->addAction(action_delete);
+    connect(action_delete, SIGNAL(triggered()), this, SLOT(on_table_view_deduction_customContextMenuRequested_action_delete()));
+
+    menu->popup(ui->table_view_deduction->viewport()->mapToGlobal(pos));
+}
+
+void MainWindow::on_table_view_deduction_customContextMenuRequested_action_add_row()
+{
+    p_table_deduction_model->table_add_record();
+    p_table_deduction_model->table_select();
+}
+
+void MainWindow::on_table_view_deduction_customContextMenuRequested_action_delete()
+{
+    QModelIndexList index_list = ui->table_view_deduction->selectionModel()->selectedIndexes();
+
+    qDebug() << "index size:" << index_list.size();
+
+    for (int i = 0; i < index_list.size(); i++)
+    {
+        p_table_deduction_model->table_delete_record(index_list[i].row());
+    }
+    p_table_deduction_model->table_select();
 }

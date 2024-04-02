@@ -9,7 +9,7 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QSqlRecord>
-
+#include <QDateTime>
 #include <QDebug>
 
 #define DATABASE_MAX_VERSION 0
@@ -183,7 +183,7 @@ table_model::table_model(QString table_name)
     }
     this->table_name = table_name;
     p_sql_table_model->setTable(table_name);
-    p_sql_table_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    p_sql_table_model->setEditStrategy(QSqlTableModel::OnFieldChange);
 
     if (!p_sql_table_model->select())
     {
@@ -230,4 +230,80 @@ bool table_model::table_sync()
         p_sql_table_model->database().rollback();
     }
     return ret;
+}
+
+bool table_model::table_add_record()
+{
+    QSqlRecord record = p_sql_table_model->record();
+
+    if ("income" == table_name)
+    {
+        record.setValue("year", QDateTime::currentDateTime().date().year());
+        record.setValue("month", 0);
+        record.setValue("income", 0.0);
+        record.setValue("bonus", 0.0);
+    }
+    else if ("deduction" == table_name)
+    {
+        record.setValue("year", QDateTime::currentDateTime().date().year());
+        record.setValue("month", 0);
+        record.setValue("threshold", 0.0);
+        record.setValue("pension", 0.0);
+        record.setValue("medical-insurance", 0.0);
+        record.setValue("unemployment-insurance", 0.0);
+        record.setValue("housing-fund", 0.0);
+        record.setValue("housing-loan", 0.0);
+        record.setValue("house-renting", 0.0);
+        record.setValue("elderly-support", 0.0);
+        record.setValue("serious-illness-support", 0.0);
+        record.setValue("adult-education", 0.0);
+        record.setValue("children-education", 0.0);
+        record.setValue("personal-pension", 0.0);
+    }
+    else
+    {
+        return false;
+    }
+
+    if (p_sql_table_model->insertRecord(-1, record))
+    {
+        if (p_sql_table_model->submitAll())
+        {
+            p_sql_table_model->database().commit();
+        }
+        else
+        {
+            show_error_message_box();
+        }
+    }
+    else
+    {
+        show_error_message_box();
+        p_sql_table_model->database().rollback();
+        return false;
+    }
+    return true;
+}
+
+bool table_model::table_delete_record(qint64 index)
+{
+    if (p_sql_table_model->removeRows(index, 1))
+    {
+        if (p_sql_table_model->submitAll())
+        {
+            p_sql_table_model->database().commit();
+        }
+        else
+        {
+            show_error_message_box();
+            p_sql_table_model->database().rollback();
+            return false;
+        }
+    }
+    else
+    {
+        show_error_message_box();
+        return false;
+    }
+    return true;
 }

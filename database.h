@@ -18,6 +18,7 @@ public:
     bool table_select();
     bool table_sync();
     void clear_match();
+    bool table_add_record();
     bool table_delete_record(qint64 index);
 
 private:

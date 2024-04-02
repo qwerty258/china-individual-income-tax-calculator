@@ -80,7 +80,7 @@
           <second>0</second>
           <year>2019</year>
           <month>12</month>
-          <day>25</day>
+          <day>21</day>
          </datetime>
         </property>
         <property name="displayFormat">
@@ -109,7 +109,11 @@
      </attribute>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
-       <widget class="QTableView" name="table_view_income"/>
+       <widget class="QTableView" name="table_view_income">
+        <property name="contextMenuPolicy">
+         <enum>Qt::CustomContextMenu</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -119,7 +123,11 @@
      </attribute>
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="0">
-       <widget class="QTableView" name="table_view_deduction"/>
+       <widget class="QTableView" name="table_view_deduction">
+        <property name="contextMenuPolicy">
+         <enum>Qt::CustomContextMenu</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
