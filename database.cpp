@@ -183,7 +183,7 @@ table_model::table_model(QString table_name)
     }
     this->table_name = table_name;
     p_sql_table_model->setTable(table_name);
-    p_sql_table_model->setEditStrategy(QSqlTableModel::OnFieldChange);
+    p_sql_table_model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     if (!p_sql_table_model->select())
     {

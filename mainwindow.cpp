@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
     else
     {
+        ui->table_view_income->setContextMenuPolicy(Qt::CustomContextMenu);
         ui->table_view_income->setModel(p_table_income_model->get_table_model());
         ui->table_view_income->setSortingEnabled(true);
         ui->table_view_income->sortByColumn(0, Qt::SortOrder::AscendingOrder);
@@ -49,6 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
     else
     {
+        ui->table_view_income->setContextMenuPolicy(Qt::CustomContextMenu);
         ui->table_view_deduction->setModel(p_table_deduction_model->get_table_model());
         ui->table_view_deduction->setSortingEnabled(true);
         ui->table_view_deduction->sortByColumn(0, Qt::SortOrder::AscendingOrder);
@@ -62,8 +64,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    p_table_income_model->table_sync();
-    p_table_deduction_model->table_sync();
+    qDebug() << __FILE__ << __LINE__ << p_table_income_model->table_sync();
+    qDebug() << __FILE__ << __LINE__ << p_table_deduction_model->table_sync();
     delete ui;
     if (nullptr != p_table_income_model)
     {
@@ -439,8 +441,9 @@ void MainWindow::on_table_view_income_customContextMenuRequested(const QPoint &p
 
 void MainWindow::on_table_view_income_customContextMenuRequested_action_add_row()
 {
-    p_table_income_model->table_add_record();
-    p_table_income_model->table_select();
+    qDebug() << __FILE__ << __LINE__ << p_table_income_model->table_add_record();
+    qDebug() << __FILE__ << __LINE__ << p_table_income_model->table_sync();
+    qDebug() << __FILE__ << __LINE__ << p_table_income_model->table_select();
 }
 
 void MainWindow::on_table_view_income_customContextMenuRequested_action_delete()
@@ -453,7 +456,8 @@ void MainWindow::on_table_view_income_customContextMenuRequested_action_delete()
     {
         p_table_income_model->table_delete_record(index_list[i].row());
     }
-    p_table_income_model->table_select();
+    qDebug() << __FILE__ << __LINE__ << p_table_income_model->table_sync();
+    qDebug() << __FILE__ << __LINE__ << p_table_income_model->table_select();
 }
 
 void MainWindow::on_table_view_deduction_customContextMenuRequested(const QPoint &pos)
@@ -473,8 +477,9 @@ void MainWindow::on_table_view_deduction_customContextMenuRequested(const QPoint
 
 void MainWindow::on_table_view_deduction_customContextMenuRequested_action_add_row()
 {
-    p_table_deduction_model->table_add_record();
-    p_table_deduction_model->table_select();
+    qDebug() << __FILE__ << __LINE__ << p_table_deduction_model->table_add_record();
+    qDebug() << __FILE__ << __LINE__ << p_table_income_model->table_sync();
+    qDebug() << __FILE__ << __LINE__ << p_table_deduction_model->table_select();
 }
 
 void MainWindow::on_table_view_deduction_customContextMenuRequested_action_delete()
@@ -487,5 +492,6 @@ void MainWindow::on_table_view_deduction_customContextMenuRequested_action_delet
     {
         p_table_deduction_model->table_delete_record(index_list[i].row());
     }
-    p_table_deduction_model->table_select();
+    qDebug() << __FILE__ << __LINE__ << p_table_income_model->table_sync();
+    qDebug() << __FILE__ << __LINE__ << p_table_deduction_model->table_select();
 }
