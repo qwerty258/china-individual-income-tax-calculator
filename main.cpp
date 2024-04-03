@@ -5,6 +5,7 @@
 #include <QTranslator>
 #include <QLocale>
 #include <QDir>
+#include <QMessageBox>
 #include <QDebug>
 
 QSettings global_settings(
@@ -13,17 +14,26 @@ QSettings global_settings(
     "china-individual-income-tax-calculator",
     "china-individual-income-tax-calculator");
 
+QTranslator qt(nullptr);
+QLocale l;
+
 int main(int argc, char *argv[])
 {
     global_settings.sync();
     QApplication a(argc, argv);
-    QTranslator qt(nullptr);
-    QLocale l;
     l.system();
-    qDebug() << QDir::currentPath();
-    qDebug() << QString("china-iit-calc_") + l.name();
-    qDebug() << qt.load(QString("china-iit-calc_") + l.name() + ".qm", "", "", "");
-    a.installTranslator(&qt);
+    if (qt.load(QString("china_iit_calc_") + l.name()))
+    {
+        a.installTranslator(&qt);
+    }
+    else
+    {
+        QMessageBox msg;
+        msg.setIcon(QMessageBox::Warning);
+        msg.setStandardButtons(QMessageBox::Ok);
+        msg.setText("Translation file " + QString("china_iit_calc_") + l.name() + " missing, fallback to english");
+        msg.exec();
+    }
     MainWindow w;
     w.show();
     return a.exec();

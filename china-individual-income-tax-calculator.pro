@@ -30,12 +30,13 @@ FORMS += \
     mainwindow.ui
 
 TRANSLATIONS += \
+    china_iit_calc_en_US.ts \
     china_iit_calc_zh_CN.ts
+
+RESOURCES += \
+    china-iit-calc.qrc
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-RESOURCES += \
-    china-iit-calc.qrc
