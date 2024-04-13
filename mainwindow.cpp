@@ -254,20 +254,18 @@ void MainWindow::year_tax_calc(bool add_bonus_to_total, bool pay_personal_pensio
         }
     }
 
-
-    qDebug() << "tax_start_point: " << tax_start_point;
-    qDebug() << "total_pension: " << total_pension;
-    qDebug() << "total_medical_insurance: " << total_medical_insurance;
-    qDebug() << "total_unemployment_insurance: " << total_unemployment_insurance;
-    qDebug() << "total_housing_fund: " << total_housing_fund;
-    qDebug() << "total_housing_loan: " << total_housing_loan;
-    qDebug() << "total_house_renting: " << total_house_renting;
-    qDebug() << "total_elderly_support: " << total_elderly_support;
-    qDebug() << "total_serious_illness_support: " << total_serious_illness_support;
-    qDebug() << "total_adult_education: " << total_adult_education;
-    qDebug() << "total_children_education: " << total_children_education;
-    qDebug() << "total_personal_pension: " << total_personal_pension;
-
+    ui->label_tax_start_point->setText(QString::number(tax_start_point, 'f', 2));
+    ui->label_pension->setText(QString::number(total_pension, 'f', 2));
+    ui->label_medical_insurance->setText(QString::number(total_medical_insurance, 'f', 2));
+    ui->label_unemployment_insurance->setText(QString::number(total_unemployment_insurance, 'f', 2));
+    ui->label_house_fund->setText(QString::number(total_housing_fund, 'f', 2));
+    ui->label_house_loan->setText(QString::number(total_housing_loan, 'f', 2));
+    ui->label_house_renting->setText(QString::number(total_house_renting, 'f', 2));
+    ui->label_elderly_support->setText(QString::number(total_elderly_support, 'f', 2));
+    ui->label_illness_support->setText(QString::number(total_serious_illness_support, 'f', 2));
+    ui->label_adult_education->setText(QString::number(total_adult_education, 'f', 2));
+    ui->label_children_education->setText(QString::number(total_children_education, 'f', 2));
+    ui->label_personal_pension->setText(QString::number(total_personal_pension, 'f', 2));
 
     if (add_bonus_to_total)
     {
