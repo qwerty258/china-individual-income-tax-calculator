@@ -10,17 +10,18 @@ CREATE TABLE IF NOT EXISTS "income" (
 CREATE TABLE IF NOT EXISTS "deduction" (
     "year"                      INTEGER,
     "month"                     INTEGER,
-    "threshold"                 REAL,
-    "pension"                   REAL,
+    "tax-deduction"             REAL,
+    "pension-insurance"         REAL,
     "medical-insurance"         REAL,
     "unemployment-insurance"    REAL,
     "housing-fund"              REAL,
     "housing-loan"              REAL,
     "house-renting"             REAL,
-    "elderly-support"           REAL,
+    "elderly-care-support"      REAL,
     "serious-illness-support"   REAL,
     "adult-education"           REAL,
     "children-education"        REAL,
+    "infant-care-support"       REAL,
     "personal-pension"          REAL
 );
 /*STATEMENT SEPARATOR*/

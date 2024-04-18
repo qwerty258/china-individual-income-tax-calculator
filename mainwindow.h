@@ -66,6 +66,7 @@ private:
     double total_serious_illness_support;
     double total_adult_education;
     double total_children_education;
+    double total_infant_care;
     double total_personal_pension;
 
     double tax_income;

@@ -14,134 +14,138 @@
         <translation>税额计算</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="436"/>
+        <location filename="mainwindow.ui" line="349"/>
         <source>Calculate</source>
         <translation>计算</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="178"/>
-        <source>yyyy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="55"/>
+        <location filename="mainwindow.ui" line="333"/>
         <source>Unemployment Insurance Deduction:</source>
         <translation>失业保险专项扣除：</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="71"/>
+        <location filename="mainwindow.ui" line="100"/>
         <source>Elderly Support Deduction:</source>
         <translation>赡养老人专项附加扣除：</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="87"/>
+        <location filename="mainwindow.ui" line="378"/>
         <source>Children Education Deduction:</source>
         <translation>子女教育专项附加扣除：</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="123"/>
+        <location filename="mainwindow.ui" line="284"/>
         <source>This is only for reference purpose, please take &quot;Individual Tax APP&quot; as authority result.</source>
         <translation>本程序的结果仅作参考，最终请按个税APP为准。</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="149"/>
+        <location filename="mainwindow.ui" line="362"/>
         <source>Pension Deduction:</source>
         <translation>基本养老保险专项扣除：</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="246"/>
+        <location filename="mainwindow.ui" line="55"/>
         <source>House Fund Deduction:</source>
         <translation>住房公积金专项扣除：</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="275"/>
+        <location filename="mainwindow.ui" line="420"/>
         <source>Personal Pension Deduction:</source>
         <translation>个人养老金扣除：</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="291"/>
         <source>Tax Start Point:</source>
-        <translation>个税起征点：</translation>
+        <translation type="vanished">个税起征点：</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="301"/>
+        <location filename="mainwindow.ui" line="236"/>
         <source>Serious Illness Support Deduction:</source>
         <translation>大病医疗专项附加扣除：</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="317"/>
+        <location filename="mainwindow.ui" line="142"/>
         <source>House Loan Deduction:</source>
         <translation>住房贷款利息专项附加扣除：</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="349"/>
+        <location filename="mainwindow.ui" line="84"/>
         <source>Medical Insurance Deduction:</source>
         <translation>医疗保险专项扣除：</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="391"/>
+        <location filename="mainwindow.ui" line="197"/>
+        <source>Tax Deduction:</source>
+        <translation>个税起征点：</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="252"/>
         <source>House Renting Deduction:</source>
         <translation>住房租金专项附加扣除：</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="420"/>
+        <location filename="mainwindow.ui" line="268"/>
         <source>Adult Education Deduction:</source>
         <translation>继续教育专项附加扣除：</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="450"/>
+        <location filename="mainwindow.ui" line="449"/>
+        <source>Infant Caring Deduction:</source>
+        <translation>3岁以下婴幼儿照护专项附加扣除：</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="479"/>
         <source>Income</source>
         <translation>收入</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="464"/>
+        <location filename="mainwindow.ui" line="493"/>
         <source>Deduction</source>
         <translation>减税项目</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="489"/>
+        <location filename="mainwindow.ui" line="518"/>
         <source>File</source>
         <translation>文件</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="496"/>
+        <location filename="mainwindow.ui" line="525"/>
         <source>Help</source>
         <translation>帮助</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="502"/>
+        <location filename="mainwindow.ui" line="531"/>
         <source>Edit</source>
         <translation>编辑</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="512"/>
+        <location filename="mainwindow.ui" line="541"/>
         <source>Export Data as CSV</source>
         <translation>导出数据为CSV</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="517"/>
+        <location filename="mainwindow.ui" line="546"/>
         <source>Exit</source>
         <translation>退出</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="522"/>
+        <location filename="mainwindow.ui" line="551"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="527"/>
+        <location filename="mainwindow.ui" line="556"/>
         <source>Settings</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="429"/>
-        <location filename="mainwindow.cpp" line="465"/>
+        <location filename="mainwindow.cpp" line="440"/>
+        <location filename="mainwindow.cpp" line="476"/>
         <source>Add one row at bottom</source>
         <translation>增加一行</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="433"/>
-        <location filename="mainwindow.cpp" line="469"/>
+        <location filename="mainwindow.cpp" line="444"/>
+        <location filename="mainwindow.cpp" line="480"/>
         <source>Delete</source>
         <translation>删除行</translation>
     </message>
@@ -152,12 +156,6 @@
         <location filename="dialog_about.ui" line="20"/>
         <source>About</source>
         <translation>关于</translation>
-    </message>
-    <message>
-        <location filename="dialog_about.ui" line="32"/>
-        <location filename="dialog_about.ui" line="57"/>
-        <source>TextLabel</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

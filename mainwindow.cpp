@@ -5,6 +5,8 @@
 #include "dialog_global_settings.h"
 #include "dialog_about.h"
 
+#include <QSqlRecord>
+
 #include <QSettings>
 #include <QMessageBox>
 #include <QFileInfo>
@@ -60,6 +62,8 @@ MainWindow::MainWindow(QWidget *parent)
     tax_result_model.add_tax_result(&tax_report_list);
     ui->table_view_tax_result->setModel(&tax_result_model);
     ui->table_view_tax_result->resizeColumnsToContents();
+
+    ui->date_edit->setDate(QDateTime::currentDateTime().date());
 }
 
 MainWindow::~MainWindow()
@@ -191,15 +195,16 @@ void MainWindow::year_tax_calc(bool add_bonus_to_total, bool pay_personal_pensio
     QSqlTableModel* p_sql_table_model_temp;
 
     p_sql_table_model_temp = p_table_income_model->get_table_model();
+    QSqlRecord record = p_sql_table_model_temp->record();
     for(int row = 0; row < p_sql_table_model_temp->rowCount(); row++)
     {
-        QVariant row_year = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 0));
+        QVariant row_year = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("year")));
         if (year == row_year.toInt())
         {
             QVariant cell_value;
-            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 2));
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("income")));
             total_income += cell_value.toDouble();
-            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 3));
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("bonus")));
             total_bonus += cell_value.toDouble();
         }
     }
@@ -218,38 +223,42 @@ void MainWindow::year_tax_calc(bool add_bonus_to_total, bool pay_personal_pensio
     total_serious_illness_support = 0.0;
     total_adult_education = 0.0;
     total_children_education = 0.0;
+    total_infant_care = 0.0;
     total_personal_pension = 0.0;
 
     p_sql_table_model_temp = p_table_deduction_model->get_table_model();
+    record = p_sql_table_model_temp->record();
     for (int row = 0; row < p_sql_table_model_temp->rowCount(); row++)
     {
-        QVariant row_year = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 0));
+        QVariant row_year = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("year")));
         if (year == row_year.toInt())
         {
             QVariant cell_value;
-            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 2));
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("tax-deduction")));
             tax_start_point += cell_value.toDouble();
-            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 3));
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("pension-insurance")));
             total_pension += cell_value.toDouble();
-            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 4));
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("medical-insurance")));
             total_medical_insurance += cell_value.toDouble();
-            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 5));
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("unemployment-insurance")));
             total_unemployment_insurance += cell_value.toDouble();
-            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 6));
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("housing-fund")));
             total_housing_fund += cell_value.toDouble();
-            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 7));
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("housing-loan")));
             total_housing_loan += cell_value.toDouble();
-            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 8));
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("house-renting")));
             total_house_renting += cell_value.toDouble();
-            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 9));
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("elderly-care-support")));
             total_elderly_support += cell_value.toDouble();
-            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 10));
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("serious-illness-support")));
             total_serious_illness_support += cell_value.toDouble();
-            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 11));
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("adult-education")));
             total_adult_education += cell_value.toDouble();
-            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 12));
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("children-education")));
             total_children_education += cell_value.toDouble();
-            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, 13));
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("infant-care-support")));
+            total_infant_care += cell_value.toDouble();
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("personal-pension")));
             total_personal_pension += cell_value.toDouble();
         }
     }
@@ -265,6 +274,7 @@ void MainWindow::year_tax_calc(bool add_bonus_to_total, bool pay_personal_pensio
     ui->label_illness_support->setText(QString::number(total_serious_illness_support, 'f', 2));
     ui->label_adult_education->setText(QString::number(total_adult_education, 'f', 2));
     ui->label_children_education->setText(QString::number(total_children_education, 'f', 2));
+    ui->label_infant_care->setText(QString::number(total_infant_care, 'f', 2));
     ui->label_personal_pension->setText(QString::number(total_personal_pension, 'f', 2));
 
     if (add_bonus_to_total)
@@ -283,6 +293,7 @@ void MainWindow::year_tax_calc(bool add_bonus_to_total, bool pay_personal_pensio
                        - total_elderly_support
                        - total_serious_illness_support
                        - total_adult_education
+                       - total_infant_care
                        - total_children_education;
 
     if (pay_personal_pension)
