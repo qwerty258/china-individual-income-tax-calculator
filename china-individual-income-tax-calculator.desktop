@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=china-individual-income-tax-calculator
+Exec=/opt/china-individual-income-tax-calculator/bin/china-individual-income-tax-calculator
+Terminal=false
+Type=Application
