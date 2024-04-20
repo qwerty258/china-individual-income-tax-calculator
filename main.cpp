@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     global_settings.sync();
     QApplication a(argc, argv);
     l.system();
-    if (qt.load(QString("china_iit_calc_") + l.name()))
+    if (qt.load(":/china_iit_calc_" + l.name()))
     {
         a.installTranslator(&qt);
     }

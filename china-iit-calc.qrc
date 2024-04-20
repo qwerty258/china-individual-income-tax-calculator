@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>database_000000.sql</file>
+        <file>china_iit_calc_en_US.qm</file>
+        <file>china_iit_calc_zh_CN.qm</file>
     </qresource>
 </RCC>
