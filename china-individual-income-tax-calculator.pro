@@ -36,6 +36,10 @@ TRANSLATIONS += \
 RESOURCES += \
     china-iit-calc.qrc
 
+macx {
+    QMAKE_APPLE_DEVICE_ARCHS = x86_64 arm64
+}
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
