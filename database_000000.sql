@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS "deduction" (
 );
 /*STATEMENT SEPARATOR*/
 CREATE TABLE IF NOT EXISTS "version" (
-    "version_id"    INTEGER);
+    "version-id"    INTEGER);
 /*STATEMENT SEPARATOR*/
-INSERT INTO version (version_id) VALUES (0);
+INSERT INTO "version" ("version-id") VALUES (0);
 /*STATEMENT SEPARATOR*/
 COMMIT;
