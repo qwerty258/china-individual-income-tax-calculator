@@ -28,18 +28,21 @@ int database_exec_sql_file(QString path)
     QTextStream in(&f);
     QSqlQuery query(db);
     QString sql = in.readAll();
-    QStringList sqls = sql.trimmed().replace('\r', ' ').replace('\n', ' ').split("/*STATEMENT SEPARATOR*/");
+    QStringList sqls = sql.split(';');
 
     for (QStringList::Iterator it = sqls.begin(); it != sqls.end(); it++)
     {
-        QString tmp = (*it);
-        qDebug() << "SQL: " << tmp;
+        QString tmp = (*it).remove('\r').remove('\n').trimmed();
+
         if (tmp.isEmpty())
             continue;
-        if (!query.exec(*it))
+
+        tmp += ';';
+        qDebug() << "SQL:" << tmp;
+        if (!query.exec(tmp))
         {
             QMessageBox msg;
-            msg.setText(path + ": " + *it + "ERROR: " + query.lastError().text());
+            msg.setText(path + ": " + tmp + " ERROR: " + query.lastError().text());
             msg.exec();
             db.rollback();
             return -1;

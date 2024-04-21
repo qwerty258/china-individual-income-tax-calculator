@@ -1,16 +1,12 @@
 PRAGMA journal_mode = WAL;
-/*STATEMENT SEPARATOR*/
 PRAGMA synchronous = NORMAL;
-/*STATEMENT SEPARATOR*/
 BEGIN TRANSACTION;
-/*STATEMENT SEPARATOR*/
 CREATE TABLE IF NOT EXISTS "income" (
     "year"      INTEGER,
     "month"     INTEGER,
     "income"    REAL,
     "bonus"     REAL
 );
-/*STATEMENT SEPARATOR*/
 CREATE TABLE IF NOT EXISTS "deduction" (
     "year"                      INTEGER,
     "month"                     INTEGER,
@@ -28,10 +24,7 @@ CREATE TABLE IF NOT EXISTS "deduction" (
     "infant-care-support"       REAL,
     "personal-pension"          REAL
 );
-/*STATEMENT SEPARATOR*/
 CREATE TABLE IF NOT EXISTS "version" (
     "version-id"    INTEGER);
-/*STATEMENT SEPARATOR*/
 INSERT INTO "version" ("version-id") VALUES (0);
-/*STATEMENT SEPARATOR*/
 COMMIT;
