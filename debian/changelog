@@ -1,3 +1,10 @@
+china-individual-income-tax-calculator (0.1.0) UNRELEASED; urgency=medium
+
+  * Add table header translations
+  * Update database SQL file execution function
+
+ -- yaofei <zyf26256@gmail.com>  Sun, 21 Apr 2024 12:34:06 +0800
+
 china-individual-income-tax-calculator (0.0.1) UNRELEASED; urgency=medium
 
   * Initial release.
