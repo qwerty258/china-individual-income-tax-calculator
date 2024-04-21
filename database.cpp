@@ -120,9 +120,6 @@ int database_init()
         return -1;
     }
 
-    db.exec("PRAGMA synchronous = OFF;");
-    db.exec("PRAGMA journal_mode = MEMORY;");
-
     size_t i = 0;
 
     if (db.tables().contains("version"))
