@@ -43,6 +43,11 @@ MainWindow::MainWindow(QWidget *parent)
         ui->table_view_income->setSortingEnabled(true);
         ui->table_view_income->sortByColumn(0, Qt::SortOrder::AscendingOrder);
         ui->table_view_income->resizeColumnsToContents();
+        QSqlRecord record = p_table_income_model->get_table_model()->record();
+        p_table_income_model->get_table_model()->setHeaderData(record.indexOf("year"), Qt::Horizontal, tr("Year"));
+        p_table_income_model->get_table_model()->setHeaderData(record.indexOf("month"), Qt::Horizontal, tr("Month"));
+        p_table_income_model->get_table_model()->setHeaderData(record.indexOf("income"), Qt::Horizontal, tr("Income"));
+        p_table_income_model->get_table_model()->setHeaderData(record.indexOf("bonus"), Qt::Horizontal, tr("Bonus"));
     }
 
     p_table_deduction_model = new table_model("deduction");
@@ -57,6 +62,22 @@ MainWindow::MainWindow(QWidget *parent)
         ui->table_view_deduction->setSortingEnabled(true);
         ui->table_view_deduction->sortByColumn(0, Qt::SortOrder::AscendingOrder);
         ui->table_view_deduction->resizeColumnsToContents();
+        QSqlRecord record = p_table_deduction_model->get_table_model()->record();
+        p_table_deduction_model->get_table_model()->setHeaderData(record.indexOf("year"), Qt::Horizontal, tr("Year"));
+        p_table_deduction_model->get_table_model()->setHeaderData(record.indexOf("month"), Qt::Horizontal, tr("Month"));
+        p_table_deduction_model->get_table_model()->setHeaderData(record.indexOf("tax-deduction"), Qt::Horizontal, tr("Tax Deduction"));
+        p_table_deduction_model->get_table_model()->setHeaderData(record.indexOf("pension-insurance"), Qt::Horizontal, tr("Pension Insurance"));
+        p_table_deduction_model->get_table_model()->setHeaderData(record.indexOf("medical-insurance"), Qt::Horizontal, tr("Medical Insurance"));
+        p_table_deduction_model->get_table_model()->setHeaderData(record.indexOf("unemployment-insurance"), Qt::Horizontal, tr("Unemployment Insurance"));
+        p_table_deduction_model->get_table_model()->setHeaderData(record.indexOf("housing-fund"), Qt::Horizontal, tr("Housing Fund"));
+        p_table_deduction_model->get_table_model()->setHeaderData(record.indexOf("housing-loan"), Qt::Horizontal, tr("Housing Loan"));
+        p_table_deduction_model->get_table_model()->setHeaderData(record.indexOf("house-renting"), Qt::Horizontal, tr("House Renting"));
+        p_table_deduction_model->get_table_model()->setHeaderData(record.indexOf("elderly-care-support"), Qt::Horizontal, tr("Elderly Care Support"));
+        p_table_deduction_model->get_table_model()->setHeaderData(record.indexOf("serious-illness-support"), Qt::Horizontal, tr("Serious Illness Support"));
+        p_table_deduction_model->get_table_model()->setHeaderData(record.indexOf("adult-education"), Qt::Horizontal, tr("Adult Education"));
+        p_table_deduction_model->get_table_model()->setHeaderData(record.indexOf("children-education"), Qt::Horizontal, tr("Children Education"));
+        p_table_deduction_model->get_table_model()->setHeaderData(record.indexOf("infant-care-support"), Qt::Horizontal, tr("Infant Care Support"));
+        p_table_deduction_model->get_table_model()->setHeaderData(record.indexOf("personal-pension"), Qt::Horizontal, tr("Personal Pension"));
     }
 
     tax_result_model.add_tax_result(&tax_report_list);
