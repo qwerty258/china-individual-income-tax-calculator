@@ -44,15 +44,21 @@ QVariant table_model_tax_result::headerData(int section, Qt::Orientation orienta
             header_name.setValue(tr("Total Annual Bonus"));
             break;
         case 5:
-            header_name.setValue(tr("Tax Total Income"));
+            header_name.setValue(tr("Total Accidental Income"));
             break;
         case 6:
-            header_name.setValue(tr("Tax Annual Bonus"));
+            header_name.setValue(tr("Tax Total Income"));
             break;
         case 7:
-            header_name.setValue(tr("Tax Personal Pension"));
+            header_name.setValue(tr("Tax Annual Bonus"));
             break;
         case 8:
+            header_name.setValue(tr("Tax Personal Pension"));
+            break;
+        case 9:
+            header_name.setValue(tr("Tax Accidental Income"));
+            break;
+        case 10:
             header_name.setValue(tr("Tax Total"));
             break;
         default:
@@ -76,7 +82,7 @@ int table_model_tax_result::columnCount(const QModelIndex &parent) const
     if (parent.isValid())
         return 0;
 
-    return 9;
+    return 11;
 }
 
 QVariant table_model_tax_result::data(const QModelIndex &index, int role) const
@@ -105,15 +111,21 @@ QVariant table_model_tax_result::data(const QModelIndex &index, int role) const
             value.setValue(QString::number((*p_data)[index.row()].total_annual_bonus, 'f', 2));
             break;
         case 5:
-            value.setValue(QString::number((*p_data)[index.row()].tax_total_income, 'f', 2));
+            value.setValue(QString::number((*p_data)[index.row()].total_accidental_income, 'f', 2));
             break;
         case 6:
-            value.setValue(QString::number((*p_data)[index.row()].tax_annual_bonus, 'f', 2));
+            value.setValue(QString::number((*p_data)[index.row()].tax_total_income, 'f', 2));
             break;
         case 7:
-            value.setValue(QString::number((*p_data)[index.row()].tax_personal_pension, 'f', 2));
+            value.setValue(QString::number((*p_data)[index.row()].tax_annual_bonus, 'f', 2));
             break;
         case 8:
+            value.setValue(QString::number((*p_data)[index.row()].tax_personal_pension, 'f', 2));
+            break;
+        case 9:
+            value.setValue(QString::number((*p_data)[index.row()].tax_accidental_income, 'f', 2));
+            break;
+        case 10:
             value.setValue(QString::number((*p_data)[index.row()].tax_total, 'f', 2));
             break;
         default:

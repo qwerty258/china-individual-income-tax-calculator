@@ -151,9 +151,11 @@ void MainWindow::on_push_button_calc_clicked()
     temp.pay_personal_pension = pay_personal_pension;
     temp.total_income = total_income;
     temp.total_annual_bonus = total_bonus;
+    temp.total_accidental_income = total_accidental_income;
     temp.tax_total_income = tax_income;
     temp.tax_annual_bonus = tax_annual_bonus;
     temp.tax_personal_pension = tax_personal_pension;
+    temp.tax_accidental_income = tax_accidental_income;
     temp.tax_total = tax_total;
     tax_report_list.push_back(temp);
 
@@ -165,9 +167,11 @@ void MainWindow::on_push_button_calc_clicked()
     temp.pay_personal_pension = pay_personal_pension;
     temp.total_income = total_income;
     temp.total_annual_bonus = total_bonus;
+    temp.total_accidental_income = total_accidental_income;
     temp.tax_total_income = tax_income;
     temp.tax_annual_bonus = tax_annual_bonus;
     temp.tax_personal_pension = tax_personal_pension;
+    temp.tax_accidental_income = tax_accidental_income;
     temp.tax_total = tax_total;
     tax_report_list.push_back(temp);
 
@@ -179,9 +183,11 @@ void MainWindow::on_push_button_calc_clicked()
     temp.pay_personal_pension = pay_personal_pension;
     temp.total_income = total_income;
     temp.total_annual_bonus = total_bonus;
+    temp.total_accidental_income = total_accidental_income;
     temp.tax_total_income = tax_income;
     temp.tax_annual_bonus = tax_annual_bonus;
     temp.tax_personal_pension = tax_personal_pension;
+    temp.tax_accidental_income = tax_accidental_income;
     temp.tax_total = tax_total;
     tax_report_list.push_back(temp);
 
@@ -193,9 +199,11 @@ void MainWindow::on_push_button_calc_clicked()
     temp.pay_personal_pension = pay_personal_pension;
     temp.total_income = total_income;
     temp.total_annual_bonus = total_bonus;
+    temp.total_accidental_income = total_accidental_income;
     temp.tax_total_income = tax_income;
     temp.tax_annual_bonus = tax_annual_bonus;
     temp.tax_personal_pension = tax_personal_pension;
+    temp.tax_accidental_income = tax_accidental_income;
     temp.tax_total = tax_total;
     tax_report_list.push_back(temp);
 
@@ -213,6 +221,7 @@ void MainWindow::year_tax_calc(bool add_bonus_to_total, bool pay_personal_pensio
 
     total_income = 0.0;
     total_bonus = 0.0;
+    total_accidental_income = 0.0;
     QSqlTableModel* p_sql_table_model_temp;
 
     p_sql_table_model_temp = p_table_income_model->get_table_model();
@@ -227,11 +236,14 @@ void MainWindow::year_tax_calc(bool add_bonus_to_total, bool pay_personal_pensio
             total_income += cell_value.toDouble();
             cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("bonus")));
             total_bonus += cell_value.toDouble();
+            cell_value = p_sql_table_model_temp->data(p_sql_table_model_temp->index(row, record.indexOf("accidental-income")));
+            total_accidental_income += cell_value.toDouble();
         }
     }
 
     qDebug() << "total_income: " << total_income;
     qDebug() << "total_bonus: " << total_bonus;
+    qDebug() << "total_accidental_income: " << total_accidental_income;
 
     tax_start_point = 0.0;
     total_pension = 0.0;
@@ -339,7 +351,9 @@ void MainWindow::year_tax_calc(bool add_bonus_to_total, bool pay_personal_pensio
         tax_personal_pension = 0;
     }
 
-    tax_total = tax_income + tax_annual_bonus + tax_personal_pension;
+    tax_accidental_income = total_accidental_income * 0.2;
+
+    tax_total = tax_income + tax_annual_bonus + tax_personal_pension + tax_accidental_income;
 }
 
 double MainWindow::total_tax_calc(double total_mount, QVector<tax_level_t>& levels)

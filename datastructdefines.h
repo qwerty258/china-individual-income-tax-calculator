@@ -12,9 +12,11 @@ typedef struct {
     bool pay_personal_pension;
     double total_income;
     double total_annual_bonus;
+    double total_accidental_income;
     double tax_total_income;
     double tax_annual_bonus;
     double tax_personal_pension;
+    double tax_accidental_income;
     double tax_total;
 } yearly_tax_report_t;
 

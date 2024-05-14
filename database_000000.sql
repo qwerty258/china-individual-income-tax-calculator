@@ -4,8 +4,9 @@ BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "income" (
     "year"      INTEGER,
     "month"     INTEGER,
-    "income"    REAL,
-    "bonus"     REAL
+    "income"    REAL DEFAULT 0.0,
+    "bonus"     REAL DEFAULT 0.0,
+    "accidental-income" REAL DEFAULT 0.0
 );
 CREATE TABLE IF NOT EXISTS "deduction" (
     "year"                      INTEGER,

@@ -54,6 +54,7 @@ private:
 
     double total_income;
     double total_bonus;
+    double total_accidental_income;
 
     double tax_start_point;
     double total_pension;
@@ -72,6 +73,7 @@ private:
     double tax_income;
     double tax_annual_bonus;
     double tax_personal_pension;
+    double tax_accidental_income;
     double tax_total;
 
     QVector<yearly_tax_report_t> tax_report_list;
