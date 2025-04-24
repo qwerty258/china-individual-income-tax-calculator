@@ -310,9 +310,15 @@ void MainWindow::year_tax_calc(bool add_bonus_to_total, bool pay_personal_pensio
     ui->label_infant_care->setText(QString::number(total_infant_care, 'f', 2));
     ui->label_personal_pension->setText(QString::number(total_personal_pension, 'f', 2));
 
+    tax_annual_bonus = 0.0;
     if (add_bonus_to_total)
     {
         total_income += total_bonus;
+        total_bonus = 0.0;
+    }
+    else
+    {
+        tax_annual_bonus = annual_bonus_version_2019(total_bonus);
     }
 
     double tax_mount = total_income
@@ -336,11 +342,6 @@ void MainWindow::year_tax_calc(bool add_bonus_to_total, bool pay_personal_pensio
 
     tax_income = total_tax_version_2018(tax_mount);
 
-    tax_annual_bonus = 0.0;
-    if (!add_bonus_to_total)
-    {
-        tax_annual_bonus = annual_bonus_version_2019(total_bonus);
-    }
 
     if (pay_personal_pension)
     {
