@@ -48,6 +48,7 @@ private:
     table_model *p_table_income_model;
     table_model *p_table_deduction_model;
     double total_tax_calc(double total_mount, QVector<tax_level_t>& levels);
+    double annual_bonus_tax_calc(double total_mount, QVector<tax_level_t>& levels);
     double annual_bonus_version_2019(double total_mount);
     double total_tax_version_2018(double total_mount);
     void year_tax_calc(bool add_bonus_to_total, bool pay_personal_pension);

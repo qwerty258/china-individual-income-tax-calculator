@@ -387,40 +387,64 @@ double MainWindow::total_tax_calc(double total_mount, QVector<tax_level_t>& leve
 // |5    |超过35000元至55000元的部分 |30         |4410       |
 // |6    |超过55000元至80000元的部分 |35         |7160       |
 // |7    |超过80000元的部分          |45         |15160      |
+double MainWindow::annual_bonus_tax_calc(double total_mount, QVector<tax_level_t> &levels)
+{
+    double monthly_mount = total_mount / 12;
+    double rate = 0.0;
+    double reduction = 0.0;
+    for (QVector<tax_level_t>::Iterator it = levels.begin(); it != levels.end(); it++)
+    {
+        if (monthly_mount > (*it).tax_point)
+        {
+            rate = (*it).tax_rate;
+            reduction = (*it).tax_fast_reduction;
+            break;
+        }
+    }
+    return total_mount * rate - reduction;
+}
+
 double MainWindow::annual_bonus_version_2019(double total_mount)
 {
     tax_level_t temp_level;
     QVector<tax_level_t> levels;
 
-    temp_level.tax_point = 960000.0;
+    temp_level.tax_point = 80000.0;
     temp_level.tax_rate = 0.45;
+    temp_level.tax_fast_reduction = 15160.0;
     levels.push_back(temp_level);
 
-    temp_level.tax_point = 660000.0;
+    temp_level.tax_point = 55000.0;
     temp_level.tax_rate = 0.35;
+    temp_level.tax_fast_reduction = 7160.0;
     levels.push_back(temp_level);
 
-    temp_level.tax_point = 420000.0;
+    temp_level.tax_point = 35000.0;
     temp_level.tax_rate = 0.3;
+    temp_level.tax_fast_reduction = 4410.0;
     levels.push_back(temp_level);
 
-    temp_level.tax_point = 300000.0;
+    temp_level.tax_point = 25000.0;
     temp_level.tax_rate = 0.25;
+    temp_level.tax_fast_reduction = 2660.0;
     levels.push_back(temp_level);
 
-    temp_level.tax_point = 144000.0;
+    temp_level.tax_point = 12000.0;
     temp_level.tax_rate = 0.2;
+    temp_level.tax_fast_reduction = 1410.0;
     levels.push_back(temp_level);
 
-    temp_level.tax_point = 36000.0;
+    temp_level.tax_point = 3000.0;
     temp_level.tax_rate = 0.1;
+    temp_level.tax_fast_reduction = 210;
     levels.push_back(temp_level);
 
     temp_level.tax_point = 0.0;
     temp_level.tax_rate = 0.03;
+    temp_level.tax_fast_reduction = 0.0;
     levels.push_back(temp_level);
 
-    return total_tax_calc(total_mount, levels);
+    return annual_bonus_tax_calc(total_mount, levels);
 }
 
 // | 级数  | 全年应纳税所得额                 | 税率（％） |

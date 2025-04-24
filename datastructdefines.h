@@ -4,6 +4,7 @@
 typedef struct {
     double tax_point;
     double tax_rate;
+    double tax_fast_reduction;
 } tax_level_t;
 
 typedef struct {
