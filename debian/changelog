@@ -1,3 +1,9 @@
+china-individual-income-tax-calculator (0.1.1) UNRELEASED; urgency=medium
+
+  * fix annual bonus tax calculation
+
+ -- yaofei <zyf26256@gmail.com>  Fri, 25 Apr 2025 01:24:05 +0800
+
 china-individual-income-tax-calculator (0.1.0) UNRELEASED; urgency=medium
 
   * Add table header translations
